@@ -16,7 +16,7 @@ public class BackgroundMusic {
 			
 
 			FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-			fc.setValue(-9.0f);
+			fc.setValue(3.0f);
 
 			clip.start(); // parallel execution
 
