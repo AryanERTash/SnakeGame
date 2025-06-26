@@ -39,7 +39,7 @@ public class GameFrame extends CustomFrame {
 
 		heading.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		snakePanelView = new SnakePanelView(new SnakeModel(6, 4, 0, 32, 32), Color.GREEN, 420, 380);
+		snakePanelView = new SnakePanelView(new SnakeModel(9, 9, 4, 32, 32), Color.GREEN, 420, 380);
 		// snakePanelView.hideGrid();
 		snakePanelView.showGrid();
 		snakePanelView.snakeModel.putFoodAtRandom();

@@ -3,14 +3,17 @@ import java.awt.event.*;
 
 public class SnakeController implements KeyListener, Runnable {
 
-	GameFrame gameFrame;
-	boolean registerGameInput = false;
+	private GameFrame gameFrame;
+	private boolean gamePaused = true;
+	private ActionMusic actionMusic;
 
 	SnakeController(GameFrame gameFrame_) {
 
 		gameFrame = gameFrame_;
 
 		gameFrame.addKeyListener(this);
+
+		actionMusic = new ActionMusic("/res/sound/food.wav", "/res/sound/loss.wav");
 	}
 
 	@Override
@@ -20,15 +23,22 @@ public class SnakeController implements KeyListener, Runnable {
 
 			try {
 
-				registerGameInput = true;
+				if (gamePaused) {
+
+					Thread.sleep(10);
+					Thread.yield(); // stop loading cpu
+					continue;
+				}
 
 				int status = gameFrame.snakePanelView.snakeModel.move();
 
 				if (status == SnakeConstants.ATE_FOOD) {
+					actionMusic.playScoreMusic();
 					gameFrame.updateScore();
 
 				} else if (status == SnakeConstants.SELF_COLLISION || status == SnakeConstants.WALL_COLLISION) {
 
+					actionMusic.playCollisionMusic();
 					gameFrame.showMessage("You Lost lil bro!");
 					Thread.sleep(1000);
 					gameFrame.snakePanelView.snakeModel.resetGame();
@@ -36,6 +46,8 @@ public class SnakeController implements KeyListener, Runnable {
 
 					gameFrame.hideMessage();
 					gameFrame.updateScore();
+
+					gamePaused = true;
 
 				}
 
@@ -59,8 +71,10 @@ public class SnakeController implements KeyListener, Runnable {
 	@Override
 	public void keyPressed(KeyEvent e) {
 
-		if (!registerGameInput)
+		if (gamePaused) {
+			gamePaused = false;
 			return;
+		}
 
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			gameFrame.snakePanelView.snakeModel.setSnakeDirection(SnakeConstants.RIGHT);
@@ -82,7 +96,4 @@ public class SnakeController implements KeyListener, Runnable {
 
 	}
 
-	public static void main(String[] args) {
-
-	}
 }

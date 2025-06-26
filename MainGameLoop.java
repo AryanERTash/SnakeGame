@@ -1,3 +1,6 @@
+
+
+
 public class MainGameLoop {
 
 	public static void main(String[] args) {
@@ -5,7 +8,10 @@ public class MainGameLoop {
 
 		hf.showFrame();
 
-		BackgroundMusic bm = new BackgroundMusic();
-		bm.playBackgroundMusic();
+		BackgroundMusic bm = new BackgroundMusic("/res/sound/vxcs.wav");
+		bm.playBGMusic();
+
+
+		
 	}
 }

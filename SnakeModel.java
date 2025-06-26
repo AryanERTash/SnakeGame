@@ -7,6 +7,8 @@ import java.util.Random;
 import java.util.HashSet;
 import java.util.Set;
 
+import javafx.scene.control.skin.TextInputControlSkin.Direction;
+
 class SnakeException extends RuntimeException {
 
 	SnakeException() {
@@ -27,7 +29,7 @@ public class SnakeModel {
 	public int snakeDirection = SnakeConstants.RIGHT;
 	int score;
 
-	int boardWidth, boardHeight, locX, locY, initSize;
+	int boardWidth, boardHeight, initX, initY, initSize;
 
 	public SnakeModel() {
 		this(12, 7, 3, 16, 8);
@@ -48,74 +50,46 @@ public class SnakeModel {
 	 */
 
 	public SnakeModel(int initialSize, int initX, int initY, int boardWidth_, int boardHeight_) {
+		System.out.println(initialSize);
 
 		this.boardHeight = boardHeight_;
 		this.boardWidth = boardWidth_;
 
-		this.locX = initX;
-		this.locY = initY;
+		this.initX = initX;
+		this.initY = initY;
 		this.initSize = initialSize;
 
+		if (initialSize <= 1 || !isValidPoint(initX, initY)){
+
+			throw new RuntimeException("An exception has occured, kindly use correct values");
+			
+		}
 		score = 0;
 
-		if (initialSize <= 1 || !isValidPoint(initX, initY))
-			throw new RuntimeException("An exception has occured, kindly use correct values");
-
-		/*
-		 * Initialize snake as a linked list, empty cell as a set and foodcell as null
-		 */
 		snakeBodyCells = new LinkedList<>();
 		emptyCells = new HashSet<>();
 		foodCell = null;
+		/*
+		 * Initialize snake as a linked list, empty cell as a set and foodcell as null
+		 */
 
-		for (int x = 0; x < boardWidth; x++) {
-			for (int y = 0; y < boardHeight; y++) {
-
-				emptyCells.add(new Point(x, y)); // add all cells as empty cells
-			}
-		}
-
-		int currX = initX, currY = initY, remainingSnakeBody = initialSize;
-		boolean rightToLeft = true;
-
-		/* Add snake to the linked list */
-
-		while (remainingSnakeBody > 0 && currX >= 0 && currY >= 0) {
-
-			Point currPoint = new Point(currX, currY);
-
-			snakeBodyCells.addFirst(currPoint); // the new nodes are at first while the head is at last
-			emptyCells.remove(currPoint);
-			remainingSnakeBody--;
-
-			if (rightToLeft) {
-				currX--;
-			} else {
-				currX++;
-			}
-
-			if (currX < 0) {
-				currX = 0;
-				currY--;
-				rightToLeft = false;
-			} else if (currX >= boardWidth_) {
-
-				currX = boardWidth - 1;
-				currY--;
-				rightToLeft = true;
-
-			}
-
-		}
+		setInititalState();
 
 	}
 
 	public void resetGame() {
-		snakeBodyCells.clear();
+
+		setInititalState();
+
+	}
+
+	private void setInititalState() {
 		foodCell = null;
 		emptyCells.clear();
-		this.score = 0;
-		this.snakeDirection = SnakeConstants.RIGHT;
+
+		snakeBodyCells.clear();
+
+		snakeDirection = SnakeConstants.RIGHT;
 
 		for (int x = 0; x < boardWidth; x++) {
 			for (int y = 0; y < boardHeight; y++) {
@@ -123,8 +97,7 @@ public class SnakeModel {
 				emptyCells.add(new Point(x, y)); // add all cells as empty cells
 			}
 		}
-
-		int currX = this.locX, currY = this.locY, remainingSnakeBody = initSize;
+		int currX = initX, currY = initY, remainingSnakeBody = initSize;
 		boolean rightToLeft = true;
 
 		/* Add snake to the linked list */
@@ -156,7 +129,6 @@ public class SnakeModel {
 			}
 
 		}
-
 	}
 
 	/**
@@ -357,13 +329,17 @@ public class SnakeModel {
 
 	public void putFoodAtRandom() {
 
+		removeFood();
+		// always move first
+		// then remove food if food present
+		// then put food at random
+		// this ensures consistency of empty cells and snake body
 		Object emptyCellArr[] = emptyCells.toArray();
 		Random r = new Random();
 		int randIndex = r.nextInt(emptyCells.size());
 
 		Point newFoodLocation = (Point) emptyCellArr[randIndex];
 
-		removeFood();
 		putFoodAt(newFoodLocation.x, newFoodLocation.y);
 
 	}

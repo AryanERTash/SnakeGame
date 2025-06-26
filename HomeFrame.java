@@ -47,6 +47,8 @@ public class HomeFrame extends CustomFrame implements ActionListener {
 
 		getContentPane().add(actionPanel);
 
+		
+
 	}
 
 	@Override
