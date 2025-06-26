@@ -50,7 +50,6 @@ public class SnakeModel {
 	 */
 
 	public SnakeModel(int initialSize, int initX, int initY, int boardWidth_, int boardHeight_) {
-		System.out.println(initialSize);
 
 		this.boardHeight = boardHeight_;
 		this.boardWidth = boardWidth_;
@@ -59,10 +58,10 @@ public class SnakeModel {
 		this.initY = initY;
 		this.initSize = initialSize;
 
-		if (initialSize <= 1 || !isValidPoint(initX, initY)){
+		if (initialSize <= 1 || !isValidPoint(initX, initY)) {
 
 			throw new RuntimeException("An exception has occured, kindly use correct values");
-			
+
 		}
 		score = 0;
 
@@ -79,12 +78,14 @@ public class SnakeModel {
 
 	public void resetGame() {
 
+
 		setInititalState();
 
 	}
 
 	private void setInititalState() {
 		foodCell = null;
+		score = 0;
 		emptyCells.clear();
 
 		snakeBodyCells.clear();

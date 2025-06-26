@@ -40,12 +40,15 @@ public class SnakeController implements KeyListener, Runnable {
 
 					actionMusic.playCollisionMusic();
 					gameFrame.showMessage("You Lost lil bro!");
+					
+					
 					Thread.sleep(1000);
+					
 					gameFrame.snakePanelView.snakeModel.resetGame();
 					gameFrame.snakePanelView.snakeModel.putFoodAtRandom();
-
 					gameFrame.hideMessage();
 					gameFrame.updateScore();
+
 
 					gamePaused = true;
 
