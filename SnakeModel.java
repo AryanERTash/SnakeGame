@@ -7,8 +7,6 @@ import java.util.Random;
 import java.util.HashSet;
 import java.util.Set;
 
-import javafx.scene.control.skin.TextInputControlSkin.Direction;
-
 class SnakeException extends RuntimeException {
 
 	SnakeException() {

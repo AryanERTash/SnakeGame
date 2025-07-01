@@ -19,7 +19,7 @@ class BackgroundMusic {
 			
 
 			FloatControl fc = (FloatControl) backgroundMusicClip.getControl(FloatControl.Type.MASTER_GAIN);
-			fc.setValue(-20.3f);
+			fc.setValue(-15.3f);
 
 		} catch (UnsupportedAudioFileException e) {
 			System.err.println("The format of audio file is invalid");
@@ -57,10 +57,10 @@ class ActionMusic {
 			collisionMusicClip.open(collisionMusic);
 
 			FloatControl fc = (FloatControl) pointScoreClip.getControl(FloatControl.Type.MASTER_GAIN);
-			fc.setValue(1.2f);
+			fc.setValue(2.2f);
 
 			fc = (FloatControl) collisionMusicClip.getControl(FloatControl.Type.MASTER_GAIN);
-			fc.setValue(-1.5f);
+			fc.setValue(-2.5f);
 
 		} catch (UnsupportedAudioFileException e) {
 			System.err.println("The format of audio file is invalid");
