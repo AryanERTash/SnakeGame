@@ -1,0 +1,5 @@
+mkdir -p out
+javac -d out *.java
+cp -r res out/
+
+jar cfm out/SnakeGame.jar manifest.txt -C out .
